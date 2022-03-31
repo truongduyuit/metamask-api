@@ -5,8 +5,7 @@ import { useMetaMask } from "../libs/metamask";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
-  const { accounts, active, chainId, disconnect } = useMetaMask();
-
+  const { accounts, active, chainId, disconnect, encrypt } = useMetaMask();
   return (
     <div className={styles.container}>
       <Head>
