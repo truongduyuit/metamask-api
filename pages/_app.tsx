@@ -1,8 +1,15 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import { ChakraProvider } from "@chakra-ui/react";
+import type { AppProps } from "next/app";
+import { MetaMaskProvider } from "../libs";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <ChakraProvider>
+      <MetaMaskProvider>
+        <Component {...pageProps} />
+      </MetaMaskProvider>
+    </ChakraProvider>
+  );
 }
-
-export default MyApp
+export default MyApp;
