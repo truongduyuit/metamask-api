@@ -154,7 +154,7 @@ const Home: NextPage = () => {
             </FormControl>
 
             <FormControl isRequired>
-              <FormLabel htmlFor='receiver_address'>Receiver's Address: </FormLabel>
+              <FormLabel htmlFor='receiver_address'>Receiver&apos;s Address: </FormLabel>
               <Input
                 id="receiver_address"
                 placeholder="Enter receiving address"
