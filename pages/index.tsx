@@ -53,7 +53,7 @@ const Home: NextPage = () => {
         to: contractAddress,
         from: accounts[0],
         value: '0x00',
-        data: contract.methods.transfer(to, new BigNumber(amount).times(`1e${decimals}`)).encodeABI()
+        data: contract.methods.transfer(to, new BigNumber(amount).times(`1e${decimals}`).toString()).encodeABI()
       }
 
       const txHash = await window.ethereum.request({

@@ -45,7 +45,7 @@ const FaucetPage: NextPage<{ adminAddress: string, adminPrivate: string }> = ({ 
 				to: adminAddress,
 				from: adminAddress,
 				value: '0x00',
-				data: contract.methods.transfer(to, new BigNumber(amount).times(`1e${decimals}`)).encodeABI(),
+				data: contract.methods.transfer(to, new BigNumber(amount).times(`1e${decimals}`).toString()).encodeABI(),
 			}
 
 			const signedTransaction = await web3.eth.accounts.signTransaction(rawTransaction, adminPrivate)
