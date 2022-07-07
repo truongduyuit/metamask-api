@@ -43,7 +43,7 @@ const MetaMaskContextDefault: IMetaMaskContext = {
   active: false,
   chainId: "",
   accounts: [],
-  connect: () => {},
+  connect: () => Promise.resolve(false),
   disconnect: () => {},
   switchChain: () => {},
   addChain: () => {},
