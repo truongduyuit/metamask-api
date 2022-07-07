@@ -13,12 +13,26 @@ import styles from "../styles/Home.module.css";
 const Home: NextPage = () => {
   const toast = useToast()
   const router = useRouter();
-  const { accounts, active, disconnect, connect } = useMetaMask();
+  const { accounts, active, disconnect, connect, isMetaMaskInstalled } = useMetaMask();
 
   const [to, setTo] = useState<string>("")
   const [amount, setAmount] = useState<number>(10)
   const [contractAddress, setContractAddress] = useState<string>("")
   const [decimals, setDecimals] = useState<number>(18)
+
+  const connectMetamask = async () => {
+    const result = await connect();
+    if (!result) {
+      toast({
+        title: "Connect metamask failed",
+        description: isMetaMaskInstalled ? "Cannot connect metamask" : "Metamask not installed",
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-right"
+      })
+    }
+  }
 
   const sendCoin = async () => {
     if (contractAddress === "" || to === "") {
@@ -95,7 +109,9 @@ const Home: NextPage = () => {
       <Container>
         <Flex alignItems={'center'} justifyContent='right' mt={5}>
           {
-            active ? <></> : <Button id="mask_btn_connect" onClick={connect} bg={'blue.400'} color={'white'}>
+            active ? <></> : <Button 
+            // id="mask_btn_connect" 
+            onClick={connectMetamask} bg={'blue.400'} color={'white'}>
               Connect MetaMask
             </Button>
           }

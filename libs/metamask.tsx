@@ -22,7 +22,7 @@ interface IMetaMaskContext {
   active: boolean;
   chainId: string;
   accounts: string[];
-  connect: () => void;
+  connect: () => Promise<boolean>;
   disconnect: () => void;
   switchChain: (chain: SwitchEthereumChainParameter) => void;
   addChain: (chain: AddEthereumChainParameter) => void;
@@ -74,22 +74,24 @@ export const MetaMaskProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     setConnectBtn(document.getElementById("mask_btn_connect"));
 
-    connectBtn?.addEventListener("click", () => {
-      connect();
-    });
+    // connectBtn?.addEventListener("click", () => {
+    //   connect();
+    // });
 
-    window.ethereum.on("connect", (connectInfo: any) => {
-      setChainId(connectInfo.chainId);
-    });
-
-    window.ethereum.on("disconnect", () => {
-      setAccounts([]);
-      setactive(false);
-    });
-
-    window.ethereum.on("accountsChanged", (accounts: string[]) => {
-      setAccounts(accounts);
-    });
+    if (window.ethereum) {
+      window.ethereum.on("connect", (connectInfo: any) => {
+        setChainId(connectInfo.chainId);
+      });
+  
+      window.ethereum.on("disconnect", () => {
+        setAccounts([]);
+        setactive(false);
+      });
+  
+      window.ethereum.on("accountsChanged", (accounts: string[]) => {
+        setAccounts(accounts);
+      });
+    }
 
     setIsMetaMaskInstalled(checkMetaMaskInstalled());
     return () => {
@@ -107,11 +109,16 @@ export const MetaMaskProvider: React.FC<Props> = ({ children }) => {
 
   //#region eth
   const connect = async () => {
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    setactive(true);
-    setAccounts(accounts);
+    try {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      setactive(true);
+      setAccounts(accounts);
+      return Promise.resolve(true)
+    } catch (error) {
+      return Promise.resolve(false)
+    }
   };
 
   const disconnect = () => {
